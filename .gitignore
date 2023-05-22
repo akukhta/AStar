@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+/.vs/AStar
+/Debug
+/Release
+/tests/Debug
+/tests/Release
+/x64
