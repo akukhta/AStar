@@ -46,4 +46,4 @@ jobs:
         ls
         cd ${{env.BUILD_CONFIGURATION}}
         ls
-        tests.exe
+        ./tests.exe
