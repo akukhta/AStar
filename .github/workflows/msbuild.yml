@@ -43,6 +43,7 @@ jobs:
       
     - name: Run tests
       run: |
-        cd tests/${{env.BUILD_CONFIGURATION}}
+        ls
+        cd ${{env.BUILD_CONFIGURATION}}
         ls
         tests.exe
