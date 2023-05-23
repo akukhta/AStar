@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStar", "AStar.vcxproj", "{CBD5676C-67D4-4854-981C-58E73AB48444}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "tests\tests.vcxproj", "{06E33606-924F-4C29-A554-57D2516A728F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CBD5676C-67D4-4854-981C-58E73AB48444} = {CBD5676C-67D4-4854-981C-58E73AB48444}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
