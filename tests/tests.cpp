@@ -13,7 +13,7 @@ BOOST_AUTO_TEST_CASE(Unreachable1)
     auto startingPoint = std::make_pair(0, 0);
     auto endPoint = std::make_pair(0, 3);
 
-    BOOST_CHECK(AStarPathFinder::findPath(matrix, startingPoint, endPoint).empty() == false);
+    BOOST_CHECK(AStarPathFinder::findPath(matrix, startingPoint, endPoint).empty() == true);
 }
 
 BOOST_AUTO_TEST_CASE(Reachable1)
