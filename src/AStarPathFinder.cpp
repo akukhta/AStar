@@ -1,5 +1,6 @@
 #include "pch.h"
 #include <set>
+#include <unordered_set>
 #include <queue>
 #include <array>
 #include "../include/AStarPathFinder.h"
@@ -9,14 +10,14 @@ std::forward_list<std::pair<int, int>> AStarPathFinder::findPath(std::vector<std
 {
     std::forward_list<std::pair<int, int>> paths;
 
-    std::unordered_map<int, std::unordered_map<int, int>> open;
-    std::unordered_map<int, std::set<int>> closed;
+    std::unordered_map<size_t, int> open;
+    std::unordered_set<size_t> closed;
 
     std::priority_queue<std::shared_ptr<cell>, std::vector<std::shared_ptr<cell>>, decltype(cell::compareShared)*> sorted(cell::compareShared);
 
     auto startPoint = std::make_shared<cell>(std::make_pair(startingPoint.first, startingPoint.second));
 
-    open[startingPoint.first][startingPoint.second] = 0;
+    open[hashPair(matrix.size(), startingPoint.first, startingPoint.second)] = 0;
 
     sorted.push(startPoint);
 
@@ -31,9 +32,10 @@ std::forward_list<std::pair<int, int>> AStarPathFinder::findPath(std::vector<std
         auto curr = sorted.top();
         sorted.pop();
 
-        open[curr->currentCell.first].erase(curr->currentCell.second);
-        closed[curr->currentCell.first].insert(curr->currentCell.second);
+        open.erase(hashPair(matrix.size(), curr->currentCell.first, curr->currentCell.second));
 
+        closed.insert(hashPair(matrix.size(), curr->currentCell.first, curr->currentCell.second));
+        
         if (curr->currentCell.first == targetPoint.first && curr->currentCell.second == targetPoint.second)
         {
             auto it = curr;
@@ -70,18 +72,18 @@ std::forward_list<std::pair<int, int>> AStarPathFinder::findPath(std::vector<std
             // Check if the neighbor is within the matrix bounds
             if (nbI >= 0 && nbI < matrix.size() && nbJ >= 0 && nbJ < matrix[0].size())
             {
-                if (std::find(nonMovableChars.begin(), nonMovableChars.end(), matrix[nbI][nbJ]) != nonMovableChars.end() || checkIfPresent(nbI, nbJ, closed))
+                if (std::find(nonMovableChars.begin(), nonMovableChars.end(), matrix[nbI][nbJ]) != nonMovableChars.end() || checkIfPresent(hashPair(matrix.size(), nbI, nbJ), closed))
                 {
                     continue;
                 }
 
                 auto neighborCell = std::make_shared<cell>(curr, std::make_pair(nbI, nbJ), targetPoint, off);
 
-                auto cellIsPresent = checkIfPresent(nbI, nbJ, open);
+                auto cellKey = hashPair(matrix.size(), nbI, nbJ);
 
-                if (checkIfPresent(nbI, nbJ, open) == false || open[nbI][nbJ] > neighborCell->totalCost)
+                if (checkIfPresent(cellKey, open) == false || open[cellKey] > neighborCell->totalCost)
                 {
-                    open[nbI][nbJ] = neighborCell->totalCost;
+                    open[cellKey] = neighborCell->totalCost;
                     sorted.push(neighborCell);
                 }
             }

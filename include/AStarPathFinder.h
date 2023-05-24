@@ -4,7 +4,7 @@
 #include <unordered_map>
 
 template <typename T>
-concept HasFind = requires (T x) { x.find(T::key_type()); };
+concept HasFind = requires (T x) { std::same_as<decltype(x.find(T::key_type())), typename T::iterator>; };
 
 
 class AStarPathFinder
@@ -55,24 +55,15 @@ private:
         }
     };
 
-    template<class HasFind>
-    static bool checkIfPresent(int i, int j, std::unordered_map<int, HasFind>& map)
+    template <class HasFind>
+    static bool checkIfPresent(size_t key, HasFind & map)
     {
-        if (map.find(i) != map.end())
-        {
-            if (map[i].find(j) != map[i].end())
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
+        return map.find(key) != map.end();
+    }
+
+    static inline size_t hashPair(size_t maxSize, int a, int b)
+    {
+        return std::hash<int>()(a * maxSize + b);
     }
 };
 
