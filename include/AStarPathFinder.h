@@ -10,11 +10,11 @@ concept HasFind = requires (T x) { x.find(T::key_type()); };
 class AStarPathFinder
 {
 public:
-	AStarPathFinder() = delete;
-	void* operator new(size_t) = delete;
+    AStarPathFinder() = delete;
+    void* operator new(size_t) = delete;
 
-	static std::forward_list<std::pair<int, int>> findPath(std::vector<std::vector<char>> const& matrix,
-		std::pair<int, int> const& startingPoint, std::pair<int, int> const& targetPoint, bool enableDiagonalsMoves = true);
+    static std::forward_list<std::pair<int, int>> findPath(std::vector<std::vector<char>> const& matrix,
+        std::vector<char> const& nonMovableChars, std::pair<int, int> const& startingPoint, std::pair<int, int> const& targetPoint, bool enableDiagonalsMoves = true);
 
 private:
 

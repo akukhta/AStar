@@ -4,7 +4,7 @@
 #include <array>
 #include "../include/AStarPathFinder.h"
 
-std::forward_list<std::pair<int, int>> AStarPathFinder::findPath(std::vector<std::vector<char>> const& matrix, std::pair<int, int> const& startingPoint, std::pair<int, int> const& targetPoint,
+std::forward_list<std::pair<int, int>> AStarPathFinder::findPath(std::vector<std::vector<char>> const& matrix, std::vector<char> const& nonMovableChars, std::pair<int, int> const& startingPoint, std::pair<int, int> const& targetPoint,
     bool enableDiagonalsMoves)
 {
     std::forward_list<std::pair<int, int>> paths;
@@ -70,7 +70,7 @@ std::forward_list<std::pair<int, int>> AStarPathFinder::findPath(std::vector<std
             // Check if the neighbor is within the matrix bounds
             if (nbI >= 0 && nbI < matrix.size() && nbJ >= 0 && nbJ < matrix[0].size())
             {
-                if (matrix[nbI][nbJ] == 'X' || checkIfPresent(nbI, nbJ, closed))
+                if (std::find(nonMovableChars.begin(), nonMovableChars.end(), matrix[nbI][nbJ]) != nonMovableChars.end() || checkIfPresent(nbI, nbJ, closed))
                 {
                     continue;
                 }

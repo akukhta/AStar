@@ -6,6 +6,7 @@
 #include <vector>
 #include "AStarPathFinder.h"
 
+std::vector<char> obstacles = { 'X' };
 
 BOOST_AUTO_TEST_CASE(Unreachable1)
 {
@@ -13,7 +14,7 @@ BOOST_AUTO_TEST_CASE(Unreachable1)
     auto startingPoint = std::make_pair(0, 0);
     auto endPoint = std::make_pair(0, 3);
 
-    BOOST_CHECK(AStarPathFinder::findPath(matrix, startingPoint, endPoint).empty() == true);
+    BOOST_CHECK(AStarPathFinder::findPath(matrix, obstacles, startingPoint, endPoint).empty() == true);
 }
 
 BOOST_AUTO_TEST_CASE(Reachable1)
@@ -22,7 +23,7 @@ BOOST_AUTO_TEST_CASE(Reachable1)
     auto startingPoint = std::make_pair(0, 1);
     auto endPoint = std::make_pair(0, 3);
 
-    BOOST_CHECK(AStarPathFinder::findPath(matrix, startingPoint, endPoint).empty() == false);
+    BOOST_CHECK(AStarPathFinder::findPath(matrix, obstacles, startingPoint, endPoint).empty() == false);
 }
 
 BOOST_AUTO_TEST_CASE(Unreachable2)
@@ -36,7 +37,7 @@ BOOST_AUTO_TEST_CASE(Unreachable2)
     auto startingPoint = std::make_pair(0, 0);
     auto endPoint = std::make_pair(2, 1);
 
-    BOOST_CHECK(AStarPathFinder::findPath(matrix, startingPoint, endPoint).empty() == true);
+    BOOST_CHECK(AStarPathFinder::findPath(matrix, obstacles, startingPoint, endPoint).empty() == true);
 }
 
 BOOST_AUTO_TEST_CASE(Reachable2)
@@ -49,7 +50,7 @@ BOOST_AUTO_TEST_CASE(Reachable2)
     auto startingPoint = std::make_pair(0, 0);
     auto endPoint = std::make_pair(2, 1);
 
-    BOOST_CHECK(AStarPathFinder::findPath(matrix, startingPoint, endPoint).empty() == false);
+    BOOST_CHECK(AStarPathFinder::findPath(matrix, obstacles, startingPoint, endPoint).empty() == false);
 }
 
 BOOST_AUTO_TEST_CASE(Unreachable3)
@@ -66,7 +67,7 @@ BOOST_AUTO_TEST_CASE(Unreachable3)
     auto startingPoint = std::make_pair(0, 0);
     auto endPoint = std::make_pair(5, 1);
 
-    BOOST_CHECK(AStarPathFinder::findPath(matrix, startingPoint, endPoint).empty() == true);
+    BOOST_CHECK(AStarPathFinder::findPath(matrix, obstacles, startingPoint, endPoint).empty() == true);
 }
 
 BOOST_AUTO_TEST_CASE(Reachable3)
@@ -83,7 +84,7 @@ BOOST_AUTO_TEST_CASE(Reachable3)
     auto startingPoint = std::make_pair(0, 0);
     auto endPoint = std::make_pair(5, 1);
 
-    BOOST_CHECK(AStarPathFinder::findPath(matrix, startingPoint, endPoint).empty() == false);
+    BOOST_CHECK(AStarPathFinder::findPath(matrix, obstacles, startingPoint, endPoint).empty() == false);
 }
 
 BOOST_AUTO_TEST_CASE(UnreachableByForwardMoving)
@@ -100,7 +101,7 @@ BOOST_AUTO_TEST_CASE(UnreachableByForwardMoving)
     auto startingPoint = std::make_pair(0, 0);
     auto endPoint = std::make_pair(5, 1);
 
-    BOOST_CHECK(AStarPathFinder::findPath(matrix, startingPoint, endPoint, false).empty() == true);
+    BOOST_CHECK(AStarPathFinder::findPath(matrix, obstacles, startingPoint, endPoint, false).empty() == true);
 }
 
 BOOST_AUTO_TEST_CASE(ReachableByDiagonalMoving)
@@ -117,7 +118,7 @@ BOOST_AUTO_TEST_CASE(ReachableByDiagonalMoving)
     auto startingPoint = std::make_pair(0, 0);
     auto endPoint = std::make_pair(5, 1);
 
-    BOOST_CHECK(AStarPathFinder::findPath(matrix, startingPoint, endPoint).empty() == false);
+    BOOST_CHECK(AStarPathFinder::findPath(matrix, obstacles, startingPoint, endPoint).empty() == false);
 }
 
 BOOST_AUTO_TEST_CASE(Reachable10x10)
@@ -138,7 +139,7 @@ BOOST_AUTO_TEST_CASE(Reachable10x10)
     auto startingPoint = std::make_pair(0, 3);
     auto endPoint = std::make_pair(9, 4);
 
-    BOOST_CHECK(AStarPathFinder::findPath(matrix, startingPoint, endPoint).empty() == false);
+    BOOST_CHECK(AStarPathFinder::findPath(matrix, obstacles, startingPoint, endPoint).empty() == false);
 }
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
