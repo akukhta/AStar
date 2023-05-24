@@ -5,13 +5,30 @@
 #include <array>
 #include "../include/AStarPathFinder.h"
 
+// Up, Down, Left, Right
+std::vector<std::pair<int, int>> const AStarPathFinder::forwardOffsets = { 
+    { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } 
+};
+
+// Up-Left, Up-Right, Down-Left, Down-Right, Up, Down, Left, Right, 
+std::vector<std::pair<int, int>> const AStarPathFinder::diagonalsOffsets = {
+    {-1, -1}, {-1, 1}, {1, -1}, {1, 1}, 
+    { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 }
+};
+
 std::forward_list<std::pair<int, int>> AStarPathFinder::findPath(std::vector<std::vector<char>> const& matrix, std::vector<char> const& nonMovableChars, std::pair<int, int> const& startingPoint, std::pair<int, int> const& targetPoint,
     bool enableDiagonalsMoves)
 {
+    std::vector<std::pair<int, int>> const& offsets = enableDiagonalsMoves ? diagonalsOffsets : forwardOffsets;
+
     std::forward_list<std::pair<int, int>> paths;
 
     std::unordered_map<size_t, int> open;
     std::unordered_set<size_t> closed;
+
+    std::unordered_set<char> obstacles;
+
+    std::for_each(nonMovableChars.begin(), nonMovableChars.end(), [&obstacles](auto c) {obstacles.insert(c); });
 
     std::priority_queue<std::shared_ptr<cell>, std::vector<std::shared_ptr<cell>>, decltype(cell::compareShared)*> sorted(cell::compareShared);
 
@@ -49,22 +66,8 @@ std::forward_list<std::pair<int, int>> AStarPathFinder::findPath(std::vector<std
             break;
         }
 
-        // Iterate through all neighboors
-        std::vector<std::pair<int, int>> offsets = {
-            {-1, 0}, {1, 0}, {0, -1}, {0, 1}  // Up, Down, Left, Right
-        };
-
-        if (enableDiagonalsMoves)
-        {
-            for (auto off : std::array<std::pair<int, int>, 4>{ std::make_pair(-1, -1), std::make_pair(-1, 1),
-                std::make_pair(1, -1), std::make_pair(1, 1) })
-            {
-                offsets.push_back(off);
-            }
-        }
-
         // Iterate through the offsets to access the neighbors
-        for (auto& off : offsets)
+        for (auto const &off : offsets)
         {
             int nbI = curr->currentCell.first + off.first;
             int nbJ = curr->currentCell.second + off.second;
@@ -72,7 +75,7 @@ std::forward_list<std::pair<int, int>> AStarPathFinder::findPath(std::vector<std
             // Check if the neighbor is within the matrix bounds
             if (nbI >= 0 && nbI < matrix.size() && nbJ >= 0 && nbJ < matrix[0].size())
             {
-                if (std::find(nonMovableChars.begin(), nonMovableChars.end(), matrix[nbI][nbJ]) != nonMovableChars.end() || checkIfPresent(hashPair(matrix.size(), nbI, nbJ), closed))
+                if (checkIfPresent(matrix[nbI][nbJ], obstacles) || checkIfPresent(hashPair(matrix.size(), nbI, nbJ), closed))
                 {
                     continue;
                 }

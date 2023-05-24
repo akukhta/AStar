@@ -55,8 +55,8 @@ private:
         }
     };
 
-    template <class HasFind>
-    static bool checkIfPresent(size_t key, HasFind & map)
+    template <class T, class HasFind>
+    static bool checkIfPresent(T key, HasFind & map)
     {
         return map.find(key) != map.end();
     }
@@ -65,5 +65,8 @@ private:
     {
         return std::hash<int>()(a * maxSize + b);
     }
+
+    static std::vector<std::pair<int, int>> const forwardOffsets;
+    static std::vector<std::pair<int, int>> const diagonalsOffsets;
 };
 
