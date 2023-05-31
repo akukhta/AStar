@@ -36,7 +36,7 @@ private:
                 moveCost = 10;
             }
 
-            totalCost += (prevCell != nullptr ? prevCell->moveCost : 0) + moveCost;
+            totalCost += (prevCell != nullptr ? this->prevCell->moveCost : 0) + moveCost;
         }
 
         cell(std::pair<int, int> currentCell)
@@ -51,7 +51,7 @@ private:
 
         static bool compareShared(std::shared_ptr<cell> const& a, std::shared_ptr<cell> const& b)
         {
-            return a->totalCost < b->totalCost;
+            return a->totalCost > b->totalCost;
         }
     };
 
