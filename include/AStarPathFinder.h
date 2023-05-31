@@ -1,5 +1,5 @@
 #pragma once
-#include <forward_list>
+#include <deque>
 #include <memory>
 #include <unordered_map>
 
@@ -13,7 +13,7 @@ public:
     AStarPathFinder() = delete;
     void* operator new(size_t) = delete;
 
-    static std::forward_list<std::pair<int, int>> findPath(std::vector<std::vector<char>> const& matrix,
+    static std::deque<std::pair<int, int>> findPath(std::vector<std::vector<char>> const& matrix,
         std::vector<char> const& nonMovableChars, std::pair<int, int> const& startingPoint, std::pair<int, int> const& targetPoint, bool enableDiagonalsMoves = true);
 
 private:

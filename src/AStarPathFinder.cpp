@@ -16,12 +16,12 @@ std::vector<std::pair<int, int>> const AStarPathFinder::diagonalsOffsets = {
     { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 }
 };
 
-std::forward_list<std::pair<int, int>> AStarPathFinder::findPath(std::vector<std::vector<char>> const& matrix, std::vector<char> const& nonMovableChars, std::pair<int, int> const& startingPoint, std::pair<int, int> const& targetPoint,
+std::deque<std::pair<int, int>> AStarPathFinder::findPath(std::vector<std::vector<char>> const& matrix, std::vector<char> const& nonMovableChars, std::pair<int, int> const& startingPoint, std::pair<int, int> const& targetPoint,
     bool enableDiagonalsMoves)
 {
     std::vector<std::pair<int, int>> const& offsets = enableDiagonalsMoves ? diagonalsOffsets : forwardOffsets;
 
-    std::forward_list<std::pair<int, int>> paths;
+    std::deque<std::pair<int, int>> paths;
 
     std::unordered_map<size_t, int> open;
     std::unordered_set<size_t> closed;
